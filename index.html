@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function(e) {
+            //var timer = 15000, t1,t2=5000,t_factor=3;
+            var timer, t=3000, t1,t2=2000,t_factor=2;
+            var slides,  index = 0;
+            slides = $('#slider > .slide');
+
+            /*
+            reemplazada por initTimer()
+            $(function(){
+                setInterval(function() { desliza("left") }, t);
+            });
+            */
+
+            function desliza(dir) {
+                // a la izquierda
+                if(dir == "left") {
+                    $(slides[index++]).hide("slide", { direction: "left" }, t2);
+                    if(index >= slides.length) {
+                        index = 0;
+                        t1 = t2;
+                    }else
+                        t1 = t2-(t2/t_factor);
+                    $(slides[index]).show("slide", { direction: "right" }, t1);
+                }
+                // a la derecha
+                else {
+                    var aux = index;
+                    if(index > 0)
+                        index--;
+                    else
+                        index = slides.length-1;
+
+                    $(slides[index]).show("slide", { direction: "left" }, t1);
+                    $(slides[aux]).hide("slide", { direction: "right" }, t2);
+                }
+            }
+
+            function initTimer() {
+                timer = setInterval(function() { desliza("left") }, t);
+            }
+
+            $('#btnNext').click(function () {
+                clearInterval(timer);
+                desliza("left")
+                initTimer();
+            });
+            $('#btnPrev').click(function () {
+                clearInterval(timer);
+                desliza("right")
+                initTimer();
+            });
+
+            initTimer();
+        });
+    </script>
+
+    <style type="text/css">
+        #slider {
+            margin: 0;
+            padding: 0;
+        }
+        .slide {
+            position: absolute;
+            width: 99%;
+            display: none;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+        }
+
+
+        .banner-control {
+            display: inline;
+            height: 64px;
+            width: 64px;
+
+            position: absolute;
+            top:118px;
+        }
+
+        .izq {
+            left: 0px;
+            background-image: url(prev1.png);
+            background-repeat: no-repeat;
+
+        }
+        .izq:hover {
+            background-image: url(prev.png);
+            background-repeat: no-repeat;
+        }
+        .der {
+            right: 0px;
+            background-image: url(next1.png);
+            background-repeat: no-repeat;
+        }
+        .der:hover {
+            background-image: url(next.png);
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="banner">
+        <div id="slider">
+            <div class="slide" style="display:block;"><img src="http://www.freewebheaders.com/wordpress/wp-content/gallery/chess/chess-recreation-header-6614-1024x300.jpg" alt="1"></div>
+            <div class="slide"><img src="http://www.freewebheaders.com/wordpress/wp-content/gallery/chess/chess-recreation-header-6613-1024x300.jpg" alt="2"></div>
+            <div class="slide"><img src="http://www.freewebheaders.com/wordpress/wp-content/gallery/chess/chess-recreation-header-6612-1024x300.jpg" alt="3"></div>
+            <div class="slide"><img src="http://www.freewebheaders.com/wordpress/wp-content/gallery/chess/chess-recreation-header-6611-1024x300.jpg" alt="4"></div>
+            <div class="slide"><img src="http://www.freewebheaders.com/wordpress/wp-content/gallery/chess/chess-recreation-header-6603-1024x300.jpg" alt="5"></div>
+        </div>
+
+        <div id="btnPrev" class="banner-control izq btnPrev"> </div>
+        <div id="btnNext" class="banner-control der btnNext"> </div>
+    </div>
+
+
+</body>
+</html>
